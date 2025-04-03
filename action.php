@@ -1,6 +1,7 @@
 <?php
 
 use dokuwiki\plugin\oauth\Adapter;
+use dokuwiki\plugin\oauth\Exception;
 use dokuwiki\plugin\oauthdiscord\Discord;
 
 /**
@@ -8,7 +9,6 @@ use dokuwiki\plugin\oauthdiscord\Discord;
  */
 class action_plugin_oauthdiscord extends Adapter
 {
-
     /**
      * @inheritdoc
      */
@@ -25,15 +25,40 @@ class action_plugin_oauthdiscord extends Adapter
         $oauth = $this->getOAuthService();
         $data = array();
 
-        // basic user data
-        $result = json_decode($oauth->request('https://discord.com/api/users/@me'), true);
-        $data['user'] = $result['username'];
-        $data['name'] = $result['global_name'];
-
-        if ($result['verified']) {
-            $data['mail'] = $result['email'];
+        $requestURL = 'https://discord.com/api/users/@me/guilds';
+        $result = json_decode($oauth->request($requestURL), true);
+        if ($result === NULL) throw new Exception("No response received for server list");
+        
+        $inServer = false;
+        $serverID = $this->getConf('serverID');
+        foreach ($result as $server) {
+            if ($server['id'] == $serverID) $inServer = true;
         }
-
+        
+        if (!$inServer) throw new Exception('Not a member of the correct server');
+        
+        $requestURL .= '/' . $serverID . '/member';
+        $result = json_decode($oauth->request($requestURL), true);
+        
+        if (!$result || !$result['user']) throw new Exception("No response received for server membership");
+        
+        $roleID = $this->getConf('roleID');
+        if ($roleID) {
+            $inRole = false;
+            foreach ($result['roles'] as $role) {
+                if ($role == $roleID) $inRole = true;
+            }
+            if (!$inRole) throw new Exception("User doesn't have the correct role");
+        }
+        
+        // prefer server nickname, if none, use user global name, if none, use username
+        $prefs = [$result['nick'], $result['user']['global_name'], $result['user']['username']];
+        $i = 0;
+        while (!($prefs[$i] || $prefs[$i] === "0")) $i++;
+        $data['user'] = $prefs[$i];
+        $data['name'] = $prefs[$i];
+        $data['mail'] = $result['user']['id'] . "@discord.com";
+        
         return $data;
     }
 
@@ -42,7 +67,7 @@ class action_plugin_oauthdiscord extends Adapter
      */
     public function getScopes()
     {
-        return [Discord::SCOPE_IDENTIFY, Discord::SCOPE_EMAIL];
+        return [Discord::SCOPE_MEMBER, Discord::SCOPE_SERVERS];
     }
 
     /**
