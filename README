@@ -1,6 +1,6 @@
 oauthdiscordserver Plugin for DokuWiki
 
-Discord Service for use with the oAuth Plugin with Server confirmation, and optionally role confirmation
+Discord Service for use with the oAuth Plugin with server confirmation, and optionally role confirmation
 
 All documentation for this plugin can be found at
 http://www.dokuwiki.org/plugin:oauthdiscordserver
