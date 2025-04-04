@@ -1,7 +1,7 @@
 base   oauthdiscordserver
 author GeorgeTR1
 email  
-date   2025-04-03
+date   2025-04-04
 name   oauth Discord Service with Server Confirmation
 desc   Discord Service for use with the oAuth Plugin with server confirmation
 url    http://www.dokuwiki.org/plugin:oauthdiscordserver
