@@ -1,6 +1,6 @@
 <?php
 
-namespace dokuwiki\plugin\oauthdiscord;
+namespace dokuwiki\plugin\oauthdiscordserver;
 
 use dokuwiki\plugin\oauth\Service\AbstractOAuth2Base;
 use OAuth\Common\Http\Uri\Uri;
