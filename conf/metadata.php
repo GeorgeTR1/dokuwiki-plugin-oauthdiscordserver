@@ -1,6 +1,6 @@
 <?php
 /**
- * Options for the oauthdiscord plugin
+ * Options for the oauthdiscordserver plugin
  */
 
 $meta['key'] = array('string');
