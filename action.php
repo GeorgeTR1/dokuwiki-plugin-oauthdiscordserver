@@ -2,12 +2,12 @@
 
 use dokuwiki\plugin\oauth\Adapter;
 use dokuwiki\plugin\oauth\Exception;
-use dokuwiki\plugin\oauthdiscord\Discord;
+use dokuwiki\plugin\oauthdiscordserver\Discord;
 
 /**
  * Service Implementation for oAuth Doorkeeper authentication
  */
-class action_plugin_oauthdiscord extends Adapter
+class action_plugin_oauthdiscordserver extends Adapter
 {
     /**
      * @inheritdoc
