@@ -1,6 +1,6 @@
 <?php
 /**
- * Default settings for the oauthdiscord plugin
+ * Default settings for the oauthdiscordserver plugin
  */
 
 $conf['key'] = '';
