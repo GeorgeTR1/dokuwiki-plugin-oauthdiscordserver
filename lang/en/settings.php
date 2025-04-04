@@ -1,6 +1,6 @@
 <?php
 /**
- * english language file for oauthdiscord plugin
+ * english language file for oauthdiscordserver plugin
  *
  * @author Andreas Gohr <dokuwiki@cosmocode.de>
  */
